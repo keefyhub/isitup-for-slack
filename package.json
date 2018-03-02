@@ -1,0 +1,25 @@
+{
+  "name": "isitup-for-slack",
+  "version": "1.0.0",
+  "description": "Custom slash command to use isitup.org to check if a site is up from within Slack",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keefyhub/isitup-for-slack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/keefyhub/isitup-for-slack/issues"
+  },
+  "homepage": "https://github.com/keefyhub/isitup-for-slack#readme",
+  "engines": {
+    "node": "7.1.0"
+  }
+}
