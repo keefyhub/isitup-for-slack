@@ -25,11 +25,6 @@ USAGE
 $command = $_POST['command'];
 $text = $_POST['text'];
 $token = $_POST['token'];
-$channel_id = $_POST['channel_id'];
-$user_name = $_POST['user_name'];
-
-// Webhook for response type
-$slack_webhook_url = 'https://hooks.slack.com/services/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';
 
 # Check the token and make sure the request is from our team
 if ($token != 'x4GuxFrOYiZxYgTTP9ZfDMxG') { #replace this with the token from your slash command configuration page
@@ -67,42 +62,20 @@ $response_array = json_decode($ch_response, true);
 # You can use any emoji that is available to your Slack team, including the custom ones.
 if ($ch_response === FALSE) {
     # isitup.org could not be reached
-    $reply['response_type'] = 'ephemeral';
-    $reply['text'] = 'Ironically, isitup could not be reached.';
+    $reply = "Ironically, isitup could not be reached.";
 } else {
-    $reply['response_type'] = 'in_channel';
-    if ($response_array['status_code'] == 1) {
+    if ($response_array["status_code"] == 1) {
         # Yay, the domain is up!
-        $reply['text'] = ":thumbsup: I am happy to report that *<http://" . $response_array["domain"] . "|" . $response_array["domain"] . ">* is *up*!";
+        $reply = ":thumbsup: I am happy to report that *<http://" . $response_array["domain"] . "|" . $response_array["domain"] . ">* is *up*!";
     } else if ($response_array["status_code"] == 2) {
         # Boo, the domain is down.
-        $reply['text'] = ":disappointed: I am sorry to report that *<http://" . $response_array["domain"] . "|" . $response_array["domain"] . ">* is *not up*!";
+        $reply = ":disappointed: I am sorry to report that *<http://" . $response_array["domain"] . "|" . $response_array["domain"] . ">* is *not up*!";
     } else if ($response_array["status_code"] == 3) {
         # Uh oh, isitup.org doesn't think the domain entered by the user is valid
-        $reply['text'] = ":interrobang: *" . $text . "* does not appear to be a valid domain. \n";
-        $reply['text'] .= "Please enter both the domain name AND suffix (example: *amazon.com* or *whitehouse.gov*).";
+        $reply = ":interrobang: *" . $text . "* does not appear to be a valid domain. \n";
+        $reply .= "Please enter both the domain name AND suffix (example: *amazon.com* or *whitehouse.gov*).";
     }
 }
 
-$data = [
-    'username' => 'Test bot',
-    'text' => $reply['text'],
-    'mrkdwn' => true,
-    'response_type' => $reply['response_type']
-];
-
-# Send the reply back to the user. 
-$json_string = json_encode($reply);
-
-$slack_call = curl_init($slack_webhook_url);
-curl_setopt($slack_call, CURLOPT_CUSTOMREQUEST, "POST");
-curl_setopt($slack_call, CURLOPT_POSTFIELDS, $json_string);
-curl_setopt($slack_call, CURLOPT_CRLF, true);
-curl_setopt($slack_call, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($slack_call, CURLOPT_HTTPHEADER, array(
-        "Content-Type: application/json",
-        "Content-Length: " . strlen($json_string))
-);
-
-$result = curl_exec($slack_call);
-curl_close($slack_call);
+# Send the reply back to the user.
+echo $reply;
