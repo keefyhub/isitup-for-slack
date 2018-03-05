@@ -25,13 +25,17 @@ USAGE
 $command = $_POST['command'];
 $text = $_POST['text'];
 $token = $_POST['token'];
+$channel_id = $_POST['channel_id'];
+$user_name = $_POST['user_name'];
+
+// Webhook for response type
+$slack_webhook_url = 'https://hooks.slack.com/services/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';
 
 # Check the token and make sure the request is from our team
 if ($token != 'x4GuxFrOYiZxYgTTP9ZfDMxG') { #replace this with the token from your slash command configuration page
     $msg = "The token for the slash command doesn't match. Check your script.";
     die($msg);
 }
-
 
 # isitup.org doesn't require you to use API keys, but they do require that any automated script send in a user agent string.
 # You can keep this one, or update it to something that makes more sense for you
@@ -80,5 +84,26 @@ if ($ch_response === FALSE) {
     }
 }
 
+$data = [
+    'username' => 'Test bot',
+    'channel' => $channel_id,
+    'text' => $reply['text'],
+    'mrkdwn' => true,
+    'response_type' => $reply['response_type']
+];
+
 # Send the reply back to the user. 
-return json_encode($reply);
+$json_string = json_encode($reply);
+
+$slack_call = curl_init($slack_webhook_url);
+curl_setopt($slack_call, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($slack_call, CURLOPT_POSTFIELDS, $json_string);
+curl_setopt($slack_call, CURLOPT_CRLF, true);
+curl_setopt($slack_call, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($slack_call, CURLOPT_HTTPHEADER, array(
+        "Content-Type: application/json",
+        "Content-Length: " . strlen($json_string))
+);
+
+$result = curl_exec($slack_call);
+curl_close($slack_call);
