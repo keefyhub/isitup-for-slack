@@ -29,7 +29,7 @@ $channel_id = $_POST['channel_id'];
 $user_name = $_POST['user_name'];
 
 // Webhook for response type
-$slack_webhook_url = 'https://hooks.slack.com/services/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';
+$slack_webhook_url = 'https://hooks.slack.com/services/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';
 
 # Check the token and make sure the request is from our team
 if ($token != 'x4GuxFrOYiZxYgTTP9ZfDMxG') { #replace this with the token from your slash command configuration page
