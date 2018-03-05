@@ -81,4 +81,4 @@ if ($ch_response === FALSE) {
 }
 
 # Send the reply back to the user. 
-echo json_encode($reply);
+return json_encode($reply);
