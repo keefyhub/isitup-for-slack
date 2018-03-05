@@ -86,7 +86,6 @@ if ($ch_response === FALSE) {
 
 $data = [
     'username' => 'Test bot',
-    'channel' => $channel_id,
     'text' => $reply['text'],
     'mrkdwn' => true,
     'response_type' => $reply['response_type']
