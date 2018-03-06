@@ -27,7 +27,7 @@ $text = $_POST['text'];
 $token = $_POST['token'];
 
 # Check the token and make sure the request is from our team
-if ($token != 'x4GuxFrOYiZxYgTTP9ZfDMxG') { #replace this with the token from your slash command configuration page
+if ($token != 'xoxp-321862461831-321394769411-325160523588-934be018c9195881b13c96ea0b9396a5') { #replace this with the token from your slash command configuration page
     $msg = "The token for the slash command doesn't match. Check your script.";
     die($msg);
 }
